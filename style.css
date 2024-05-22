@@ -1,0 +1,30 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 1fr 3fr 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+}
+
+.gamespace {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    border: 1px solid blue;
+}
+
+.board {
+    grid-column: 2 / 3;
+    display: grid;
+    border: 1px solid green;
+}
