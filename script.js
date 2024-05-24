@@ -17,7 +17,6 @@ function Board() {
     };
 
     const checkWinner = (playerName) => {
-
         //Tie logic
 
         const playerToken = playerName.token;
@@ -131,7 +130,6 @@ function GameController(
             else {
                 switchPlayerTurn();
                 printNewRound();
-                board.printBoard;
             }
 
         }
@@ -141,8 +139,49 @@ function GameController(
 
     return {
         playRound,
-        getActivePlayer
+        getActivePlayer,
+        getBoard: board.getBoard
     };
 }
 
-const game = GameController();
+function ScreenController() {
+    const game = GameController();
+    const playerTurnDiv = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
+
+    const updateScreen = () => {
+        boardDiv.textContent = "";
+
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn . . .`
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                cellButton.dataset.row = rowIndex;
+                cellButton.dataset.column = columnIndex;
+                cellButton.textContent = cell.getValue() === 0 ? "" : cell.getValue();
+                boardDiv.appendChild(cellButton);
+            });
+        });
+    }
+
+    function clickHandlerBoard(e) {
+        const selectedColumn = parseInt(e.target.dataset.column);
+        const selectedRow = parseInt(e.target.dataset.row);
+
+        if(isNaN(selectedColumn) || isNaN(selectedRow)) return;
+
+        game.playRound(selectedRow, selectedColumn);
+        updateScreen();
+    }
+    boardDiv.addEventListener("click", clickHandlerBoard);
+
+    updateScreen();
+
+}
+
+ScreenController();
