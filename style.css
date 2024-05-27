@@ -38,8 +38,9 @@
     height: 190px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 2em;
+    align-items: end;
+    font-size: 190px;
+    text-align: center;
 }
 
 .footer {
