@@ -19,6 +19,7 @@ function Board() {
     const checkWinner = (playerName) => {
         //Tie logic
 
+
         const playerToken = playerName.token;
         // Check rows
         for (let i = 0; i < rows; i++) {
@@ -112,8 +113,11 @@ function GameController(
       };
 
     const playRound = (row, column) => {
+        const playerTurnDiv = document.querySelector(".turn");
+        playerTurnDiv.textContent = `${getActivePlayer().name}'s turn . . .`;
         if (board.getBoard()[row][column].getValue() !== 0) {
-            console.log("This slot is already taken, try a different one.")
+            console.log("This slot is already taken, try a different one.");
+            playerTurnDiv.textContent = "This slot is already taken, try a different one."
         }
         else {
             console.log(
@@ -121,11 +125,9 @@ function GameController(
             );
             board.dropToken(row, column, getActivePlayer().token);
             const winner = board.checkWinner(getActivePlayer());
-            if(winner) {
+            if(winner){
                 console.log(`${getActivePlayer().name} Wins!` );
-            }
-            else if (winner === null) {
-                console.log("Tie!");
+                playerTurnDiv.textContent = `${getActivePlayer().name} Wins!`
             }
             else {
                 switchPlayerTurn();
@@ -146,16 +148,13 @@ function GameController(
 
 function ScreenController() {
     const game = GameController();
-    const playerTurnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
     const updateScreen = () => {
         boardDiv.textContent = "";
 
         const board = game.getBoard();
-        const activePlayer = game.getActivePlayer();
 
-        playerTurnDiv.textContent = `${activePlayer.name}'s turn . . .`
 
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
