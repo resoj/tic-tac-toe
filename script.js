@@ -17,8 +17,6 @@ function Board() {
     };
 
     const checkWinner = (playerName) => {
-        //Tie logic
-
 
         const playerToken = playerName.token;
         // Check rows
@@ -54,6 +52,15 @@ function Board() {
         ) {
 
             return true;
+        }
+
+        //Tie logic
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                if(board[i][j].getValue() === 0) {
+                    return null;
+                }
+            }
         }
 
         return false;
@@ -127,7 +134,11 @@ function GameController(
             const winner = board.checkWinner(getActivePlayer());
             if(winner){
                 console.log(`${getActivePlayer().name} Wins!` );
-                playerTurnDiv.textContent = `${getActivePlayer().name} Wins!`
+                playerTurnDiv.textContent = `${getActivePlayer().name} Wins!`;
+            }
+            else if (winner === false) {
+                console.log("It's a tie!");
+                playerTurnDiv.textContent = "It's a tie!";
             }
             else {
                 switchPlayerTurn();
@@ -178,6 +189,7 @@ function ScreenController() {
         updateScreen();
     }
     boardDiv.addEventListener("click", clickHandlerBoard);
+
 
     updateScreen();
 
